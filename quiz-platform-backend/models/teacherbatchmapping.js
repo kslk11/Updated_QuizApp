@@ -1,21 +1,20 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../src/config/sequelizeConfig.js";
 
-
-const Student = sequelize.define("Student", {
+const BatchTeacher = sequelize.define("BatchTeacher", {
   id: { type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true },
-
-  user_id: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-    references: { model: "users", key: "id" },
-    onDelete: "CASCADE",
-  },
 
   batch_id: {
     type: DataTypes.INTEGER,
     allowNull: false,
     references: { model: "batches", key: "id" },
+    onDelete: "CASCADE",
+  },
+
+  teacher_id: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    references: { model: "teachers", key: "id" },
     onDelete: "CASCADE",
   },
 
@@ -27,9 +26,14 @@ const Student = sequelize.define("Student", {
   },
 
 }, {
-  tableName: "students",
+  tableName: "batch_teacher_mapping",
   timestamps: true,
   paranoid: true,
+  indexes: [
+    {
+      unique: true,
+      fields: ["batch_id", "teacher_id"],
+    },
+  ],
 });
-
-export default Student
+export default BatchTeacher

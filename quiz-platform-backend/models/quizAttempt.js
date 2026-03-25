@@ -15,9 +15,11 @@ const QuizAttempt = sequelize.define(
       allowNull: false,
     },
 
-    quiz_id: {
+    set_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
+      references: { model: "sets", key: "id" },
+      onDelete: "CASCADE",
     },
 
     score: {
@@ -37,7 +39,7 @@ const QuizAttempt = sequelize.define(
     tableName: "quiz_attempts",
     timestamps: true,
     paranoid: true,
-  }
+  },
 );
 
 export default QuizAttempt;
