@@ -1,23 +1,25 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../src/config/sequelizeConfig.js";
 
-
-const Client = sequelize.define("Client", {
+const Set = sequelize.define("Set", {
   id: { type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true },
 
-  user_id: {
+  quiz_id: {
     type: DataTypes.INTEGER,
     allowNull: false,
-    references: { model: "users", key: "id" },
+    references: { model: "quizzes", key: "id" },
     onDelete: "CASCADE",
   },
 
-  company_name: { type: DataTypes.STRING, allowNull: false },
-  contact_number: DataTypes.STRING,
+  name: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
 
 }, {
-  tableName: "clients",
+  tableName: "sets",
   timestamps: true,
   paranoid: true,
 });
-export default Client
+
+export default Set

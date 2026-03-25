@@ -24,6 +24,12 @@ export default  {
         name: 'student',
         createdAt: new Date(),
         updatedAt: new Date()
+      },
+      {
+        id: 4,
+        name: 'teacher',
+        createdAt: new Date(),
+        updatedAt: new Date()
       }
 
     ]);

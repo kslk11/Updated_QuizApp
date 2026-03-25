@@ -1,23 +1,22 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../src/config/sequelizeConfig.js";
 
-
-const Client = sequelize.define("Client", {
+const Course = sequelize.define("Course", {
   id: { type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true },
 
-  user_id: {
+  name: { type: DataTypes.STRING, allowNull: false },
+
+  client_id: {
     type: DataTypes.INTEGER,
     allowNull: false,
-    references: { model: "users", key: "id" },
+    references: { model: "clients", key: "id" },
     onDelete: "CASCADE",
   },
 
-  company_name: { type: DataTypes.STRING, allowNull: false },
-  contact_number: DataTypes.STRING,
-
 }, {
-  tableName: "clients",
+  tableName: "courses",
   timestamps: true,
   paranoid: true,
 });
-export default Client
+
+export default Course
