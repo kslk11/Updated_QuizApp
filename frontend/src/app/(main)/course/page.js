@@ -2,9 +2,9 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import { API_BASE_URL } from "../../config/api"
-import usePagination from "../../hooks/usePagination";
-import useDebounce from "../../hooks/useDebounce";
+import { API_BASE_URL } from "../../../config/api"
+import usePagination from "../../../hooks/usePagination";
+import useDebounce from "../../../hooks/useDebounce";
 
 const COURSES_URL = `${API_BASE_URL}/api/courses`;
 

@@ -2,7 +2,8 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { API_BASE_URL } from "../../../config/api";
+import { API_BASE_URL } from "../../../../config/api"
+
 
 const DASHBOARD_URL    = `${API_BASE_URL}/api/admin/dashboard`;
 const TOP_STUDENTS_URL = `${API_BASE_URL}/api/student/dashboard/top-students`;
