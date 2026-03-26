@@ -15,9 +15,31 @@ const getBatchById = async (id) => {
 };
 
 // ✅ GET ALL BATCHES (PAGINATION + SEARCH)
-const getBatches = async (page = 1, limit = 10, search = null) => {
+// const getBatches = async (page = 1, limit = 10, search = null) => {
 
-  const offset = (page - 1) * limit;
+//   const offset = (page - 1) * limit;
+
+//   const where = {};
+
+//   if (search) {
+//     where.name = {
+//       [Op.like]: `%${search}%`
+//     };
+//   }
+
+//   const result = await models.Batch.findAndCountAll({
+//     where,
+//     limit,
+//     offset,
+//     order: [["createdAt", "DESC"]]
+//   });
+
+//   return result;
+// };
+const getBatches = async (page, limit, search = null, course_id, sortOrder = 'ASC') => {
+  const pageNum = parseInt(page) || 1;
+  const limitNum = parseInt(limit) || 10;
+  const offset = (pageNum - 1) * limitNum;
 
   const where = {};
 
@@ -27,15 +49,25 @@ const getBatches = async (page = 1, limit = 10, search = null) => {
     };
   }
 
-  const result = await models.Batch.findAndCountAll({
+  if (course_id) {
+    where.course_id = course_id;
+  }
+
+  const batches = await models.Batch.findAndCountAll({
     where,
-    limit,
+    limit: limitNum,
     offset,
-    order: [["createdAt", "DESC"]]
+    order: [['createdAt', sortOrder]]
   });
 
-  return result;
+  return {
+    total: batches.count,
+    data: batches.rows,
+    currentPage: pageNum,
+    totalPages: Math.ceil(batches.count / limitNum)
+  };
 };
+
 
 // ✅ UPDATE BATCH
 const updateBatch = async (id, data) => {
