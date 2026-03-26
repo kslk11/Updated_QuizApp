@@ -13,7 +13,9 @@ const getTeacherById = async (id) => {
 
 const getTeachers = async (page = 1, limit = 10, search = null) => {
 
-  const offset = (page - 1) * limit;
+  const pageNum = parseInt(page) || 1;
+  const limitNum = parseInt(limit) || 10;
+  const offset = (pageNum - 1) * limitNum;
 
   const where = {};
 
@@ -25,7 +27,7 @@ const getTeachers = async (page = 1, limit = 10, search = null) => {
 
   const result = await models.Teacher.findAndCountAll({
     where,
-    limit,
+    limit:limitNum,
     offset,
     order: [["createdAt", "DESC"]]
   });
@@ -36,7 +38,10 @@ const getTeachers = async (page = 1, limit = 10, search = null) => {
 const updateTeacher = async (id, data) => {
 
   const teacher = await models.Teacher.findByPk(id);
-
+  const user =  await models.User.findOne({where:{
+    user_id:id
+  }})
+  console.log(user)
   if (!teacher) return null;
 
   console.log(teacher);
