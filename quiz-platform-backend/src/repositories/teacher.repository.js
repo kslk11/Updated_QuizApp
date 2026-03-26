@@ -27,11 +27,14 @@ const getTeachers = async (page = 1, limit = 10, search = null) => {
 
   const result = await models.Teacher.findAndCountAll({
     where,
+    include:{
+      model:models.User
+    },
     limit:limitNum,
     offset,
     order: [["createdAt", "DESC"]]
   });
-
+  console.log(result)
   return result;
 };
 

@@ -141,6 +141,31 @@ Client.hasMany(Teacher, {
   foreignKey: "client_id",
  
 });
+
+Batch.belongsToMany(Teacher, {
+  through: BatchTeacher,
+  foreignKey: "batch_id",
+});
+
+Teacher.belongsToMany(Batch, {
+  through: BatchTeacher,
+  foreignKey: "teacher_id",
+});
+
+// BatchTeacher -> Teacher
+BatchTeacher.belongsTo(Teacher, {
+  foreignKey: "teacher_id",
+});
+
+// BatchTeacher -> Batch
+BatchTeacher.belongsTo(Batch, {
+  foreignKey: "batch_id",
+});
+
+// BatchTeacher -> Client
+BatchTeacher.belongsTo(Client, {
+  foreignKey: "client_id",
+});
 export default {
   User,
   Client,

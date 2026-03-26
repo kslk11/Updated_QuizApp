@@ -97,7 +97,7 @@ const updateTeacher = async (id, data) => {
       throw new Error("Teacher not found");
     }
 
-    const updated = await teacher.update(data, { transaction: t });
+    const updated = await teacherRepo.updateTeacher(data, { transaction: t });
 
     return updated;
   });

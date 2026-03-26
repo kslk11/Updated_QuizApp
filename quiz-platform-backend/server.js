@@ -8,6 +8,7 @@ import courseRoutes from "./src/routes/course.routes.js";
 import studentRoutes from "./src/routes/studentRoutes.js";
 import batchRoutes from "./src/routes/batch.routes.js";
 import teacherRoutes from "./src/routes/teacher.routes.js";
+import batchteacherRoutes from "./src/routes/batchTeacher.routes.js";
 dotenv.config();
 
 const app = express()
@@ -35,6 +36,7 @@ app.use("/api/client", clientRoutes);
 app.use("/api/student", studentRoutes);
 app.use("/api/course", courseRoutes);
 app.use("/api/teachers", teacherRoutes);
+app.use("/api/batch-teacher", batchteacherRoutes);
 
 app.listen(9000, () => {
     console.log(`Server is live on all interfaces at port ${PORT}`);
