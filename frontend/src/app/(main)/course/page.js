@@ -2,15 +2,9 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-<<<<<<< HEAD:frontend/src/app/course/page.js
-import { API_BASE_URL } from "../../config/api";
-import useDebounce from "../../hooks/useDebounce";
-import usePagination from "../../hooks/usePagination";
-=======
 import { API_BASE_URL } from "../../../config/api"
 import usePagination from "../../../hooks/usePagination";
 import useDebounce from "../../../hooks/useDebounce";
->>>>>>> 01f13e7c69d61c413dbb070a5eecffdfe2c1d639:frontend/src/app/(main)/course/page.js
 
 const COURSES_URL = `${API_BASE_URL}/api/course`;
 
