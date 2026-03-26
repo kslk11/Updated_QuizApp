@@ -58,21 +58,13 @@ const getBatches = async (page, limit, search = null, course_id, sortOrder = "AS
 };
 
 // UPDATE
-const updateBatch = async (id, data) => {
-  const batch = await models.Batch.findByPk(id);
-  if (!batch) return null;
-
-  await batch.update(data);
-  return batch;
+const updateBatch = async (batch, data, transaction = null) => {
+  return await batch.update(data, { transaction });
 };
 
-// DELETE
-const deleteBatch = async (id) => {
-  const batch = await models.Batch.findByPk(id);
-  if (!batch) return null;
-
-  await batch.destroy();
-  return batch;
+// DELETE (optional)
+const deleteBatch = async (batch, transaction = null) => {
+  return await batch.destroy({ transaction });
 };
 
 export default {

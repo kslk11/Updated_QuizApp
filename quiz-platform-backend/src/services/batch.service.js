@@ -1,3 +1,4 @@
+import models from "../../models/index.js";
 import sequelize from "../config/sequelizeConfig.js";
 import batchRepo from "../repositories/batch.repository.js";
 
@@ -23,26 +24,36 @@ const getBatchById = async (course_id, page, limit) => {
 
 const updateBatch = async (id, data) => {
   return await sequelize.transaction(async (t) => {
-    const batch = await batchRepo.getBatchById(id);
 
-    if (!batch) throw new Error("Batch not found");
+    const [updatedCount] = await models.Batch.update(data, {
+      where: { id },   // ✅ MOST IMPORTANT
+      transaction: t
+    });
 
-    return await batch.update(data, { transaction: t });
+    if (updatedCount === 0) {
+      throw new Error("Batch not found");
+    }
+
+    // optional: return updated data
+    return await models.Batch.findByPk(id, { transaction: t });
   });
 };
 
 const deleteBatch = async (id) => {
   return await sequelize.transaction(async (t) => {
-    const batch = await batchRepo.getBatchById(id);
 
-    if (!batch) throw new Error("Batch not found");
+    const deletedCount = await models.Batch.destroy({
+      where: { id },   // ✅ MOST IMPORTANT
+      transaction: t
+    });
 
-    await batch.destroy({ transaction: t });
+    if (deletedCount === 0) {
+      throw new Error("Batch not found");
+    }
 
-    return batch;
+    return true;
   });
 };
-
 export default {
   createBatch,
   getBatches,
