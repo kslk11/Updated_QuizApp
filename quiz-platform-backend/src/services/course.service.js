@@ -35,10 +35,16 @@ export const createCourseService = async (data, user) => {
 };
 
 export const getCoursesService = async (user, query) => {
-  const client_id = user.client_id;
+  const client = await clientRepo.findClientByUserId(user.id);
 
-  const page = parseInt(query.page) || 1;
-  const limit = parseInt(query.limit) || 10;
+  if (!client) {
+    throw new Error("Client not found");
+  }
+
+  const client_id = client.id;
+
+  const page = Math.max(parseInt(query.page) || 1, 1);
+  const limit = Math.min(parseInt(query.limit) || 10, 50);
   const offset = (page - 1) * limit;
 
   const { count, rows } = await getCoursesRepo(client_id, limit, offset);
@@ -47,10 +53,10 @@ export const getCoursesService = async (user, query) => {
     total: count,
     page,
     limit,
+    totalPages: Math.ceil(count / limit),
     data: rows,
   };
 };
-
 export const updateCourseService = async (id, data, user) => {
   const t = await sequelize.transaction();
 

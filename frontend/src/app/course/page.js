@@ -2,11 +2,11 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import { API_BASE_URL } from "../../config/api"
-import usePagination from "../../hooks/usePagination";
+import { API_BASE_URL } from "../../config/api";
 import useDebounce from "../../hooks/useDebounce";
+import usePagination from "../../hooks/usePagination";
 
-const COURSES_URL = `${API_BASE_URL}/api/courses`;
+const COURSES_URL = `${API_BASE_URL}/api/course`;
 
 const getAuthHeaders = () => ({
   headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
@@ -36,7 +36,7 @@ export default function CoursesPage() {
     fetchData,
     goToPage,
   } = usePagination(COURSES_URL, { itemsPerPage: 8 });
-
+console.log("data",courses)
   // fetch on page or search change
   useEffect(() => {
     fetchData({ page: currentPage, search: debouncedSearch });
