@@ -1,14 +1,14 @@
 import models from "../../models/index.js";
 
-const findUserByEmail = async (email, transaction = null) => {
+const findUserByEmail = async (email, options = {}) => {
   return await models.User.findOne({
     where: { email },
-    transaction
+    ...options,
   });
 };
 
-const createUser = async (data, transaction = null) => {
-  return await models.User.create(data, { transaction });
+const createUser = async (data, options = {}) => {
+  return await models.User.create(data, options);
 };
 
 export default {
