@@ -46,7 +46,7 @@ console.log("data",courses)
   const refresh = () =>
     fetchData({ page: currentPage, search: debouncedSearch });
 
-  // ── open modal ──────────────────────────────────────────────
+  // ── open modal
   const openCreate = () => {
     setForm(emptyForm);
     setEditId(null);
