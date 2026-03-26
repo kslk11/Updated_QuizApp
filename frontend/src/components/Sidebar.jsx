@@ -19,7 +19,7 @@ const adminLinks = [
 const clientLinks = [
   { to: "/course", label: "Course Management", icon: "📚" },
   { to: "/teacher", label: "Teacher Management", icon: "🎓" },
-  { to: "/teacherAndbatch", label: "T&B Mapping", icon: "⛓️‍💥" },
+  { to: "/teacherAndbatch", label: "T&B Mapping", icon: "🔗" },
 ];
 
 const studentLinks = [

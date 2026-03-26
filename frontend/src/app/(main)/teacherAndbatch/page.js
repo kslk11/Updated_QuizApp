@@ -6,7 +6,7 @@ import { API_BASE_URL } from "../../../config/api";
 import usePagination from "../../../hooks/usePagination";
 import useDebounce from "../../../hooks/useDebounce";
 
-const MAPPING_URL  = `${API_BASE_URL}/api/batch-teachers`;
+const MAPPING_URL  = `${API_BASE_URL}/api/batch-teacher/assign`;
 const BATCHES_URL  = `${API_BASE_URL}/api/batches`;
 const TEACHERS_URL = `${API_BASE_URL}/api/teachers`;
 
@@ -492,7 +492,7 @@ export default function BatchTeacherPage() {
                 className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-400 transition">
                 <option value="">Select a teacher</option>
                 {teachers.map(t => (
-                  <option key={t.id} value={t.id}>{t.name}</option>
+                  <option key={t.id} value={t.id}>{t.User.name}</option>
                 ))}
               </select>
             </div>
@@ -554,7 +554,7 @@ export default function BatchTeacherPage() {
                 className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-400 transition">
                 <option value="">Select a teacher</option>
                 {teachers.map(t => (
-                  <option key={t.id} value={t.id}>{t.name}</option>
+                  <option key={t.id} value={t.id}>{t.User.name}</option>
                 ))}
               </select>
             </div>

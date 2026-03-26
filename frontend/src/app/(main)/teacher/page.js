@@ -140,6 +140,8 @@ export default function TeachersPage() {
     fetchData, goToPage,
   } = usePagination(API_URL, { itemsPerPage: 5 });
 
+  console.log("teachers",teachers);
+
   // ── fetch on page / search / sort change — exactly like courses ────────────
   useEffect(() => {
     fetchData({ page: currentPage, search: debouncedSearch, sortBy, sortOrder });
@@ -379,11 +381,11 @@ export default function TeachersPage() {
                     <td style={{ padding:"14px 18px" }}>
                       <div style={{ display:"flex", alignItems:"center", gap:"10px" }}>
                         <div style={{ width:"36px", height:"36px", borderRadius:"50%", background:av.bg, color:av.text, display:"flex", alignItems:"center", justifyContent:"center", fontSize:"12px", fontWeight:700, flexShrink:0 }}>
-                          {t.name?.split(" ").map(n=>n[0]).slice(0,2).join("").toUpperCase()}
+                          {t.User.name?.split(" ").map(n=>n[0]).slice(0,2).join("").toUpperCase()}
                         </div>
                         <div>
-                          <div style={{ fontSize:"13.5px", fontWeight:600, color:"#0f172a" }}>{t.name}</div>
-                          <div style={{ fontSize:"12px", color:"#94a3b8" }}>{t.email}</div>
+                          <div style={{ fontSize:"13.5px", fontWeight:600, color:"#0f172a" }}>{t.User.name}</div>
+                          <div style={{ fontSize:"12px", color:"#94a3b8" }}>{t.User.email}</div>
                         </div>
                       </div>
                     </td>
@@ -393,7 +395,7 @@ export default function TeachersPage() {
                       </span>
                     </td>
                     <td style={{ padding:"14px 18px", fontSize:"13.5px", color:"#374151", fontWeight:500 }}>{t.experience_years} yrs</td>
-                    <td style={{ padding:"14px 18px", fontSize:"13.5px", color:"#374151" }}>{t.age}</td>
+                    <td style={{ padding:"14px 18px", fontSize:"13.5px", color:"#374151" }}>{t.User.age}</td>
                     <td style={{ padding:"14px 18px" }}>
                       <div style={{ display:"flex", gap:"6px" }}>
                         <button type="button" className="act-btn" onClick={() => setViewTeacher(t)}  title="View"   style={actBtnSt("#f0fdf4","#16a34a")}><EyeIcon /></button>
