@@ -1,64 +1,86 @@
 "use client";
+
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useSidebar } from "./SidebarContext";
 
 const guestLinks = [
-  { to: "/",       label: "Home",    icon: "⊞" },
-  { to: "/auth/login",  label: "Login",   icon: "◉" },
+  { to: "/", label: "Home", icon: "⊞" },
+  { to: "/auth/login", label: "Login", icon: "◉" },
   { to: "/auth/signup", label: "Sign Up", icon: "◌" },
 ];
-const adminLinks = [
-  { to: "/admin/admindashboard", label: "Dashboard",     icon: "⊞" },
-  { to: "/admin/clientmanagement",          label: "Client Manage", icon: "👥" },
-];
-const clientLinks = [
-  { to: "/course", label: "Course Management", icon: "📁" },
-  { to: "/batch", label: "Batch Management", icon: "📁" },
 
+const adminLinks = [
+  { to: "/admin/admindashboard", label: "Dashboard", icon: "⊞" },
+  { to: "/admin/clientmanagement", label: "Client Manage", icon: "👥" },
 ];
+
+const clientLinks = [
+  { to: "/course", label: "Course Management", icon: "📚" },
+];
+
 const studentLinks = [
-  { to: "/",           label: "Home",        icon: "⊞" },
-  { to: "/courses", label: "Test Series", icon: "📝" },
-  { to: "/history",    label: "History",     icon: "⏳" },
+  { to: "/", label: "Home", icon: "⊞" },
+  { to: "/course", label: "Test Series", icon: "📝" },
+  { to: "/history", label: "History", icon: "⏳" },
 ];
-const roleNames = { "1": "Admin", "2": "Client", "3": "Student" };
+
+const roleNames = {
+  "1": "Admin",
+  "2": "Client",
+  "3": "Student",
+};
 
 export default function Sidebar() {
   const pathname = usePathname();
-  const router   = useRouter();
+  const router = useRouter();
   const { collapsed, setCollapsed } = useSidebar();
 
+  const [mounted, setMounted] = useState(false);
   const [token, setToken] = useState(null);
-  const [role,  setRole]  = useState(null);
+  const [role, setRole] = useState(null);
 
   useEffect(() => {
-    setToken(localStorage.getItem("token"));
-    setRole(localStorage.getItem("role"));
-    const sync = () => {
+    setMounted(true);
+    const syncAuth = () => {
       setToken(localStorage.getItem("token"));
       setRole(localStorage.getItem("role"));
     };
-    window.addEventListener("storage", sync);
-    return () => window.removeEventListener("storage", sync);
+
+    syncAuth();
+
+    window.addEventListener("storage", syncAuth);
+    return () => window.removeEventListener("storage", syncAuth);
   }, []);
+
+  if (!mounted) return null;
+
+  // ✅ Better role handling
+  const navLinks = useMemo(() => {
+    if (!token) return guestLinks;
+    if (role === "1") return adminLinks;
+    if (role === "2") return clientLinks;
+    if (role === "3") return studentLinks;
+    return guestLinks;
+  }, [token, role]);
 
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("role");
     localStorage.removeItem("userId");
+
     setToken(null);
     setRole(null);
+
     router.push("/auth/login");
   };
 
-  let navLinks = guestLinks;
-  if (token) {
-    if (role === "1")      navLinks = adminLinks;
-    else if (role === "2") navLinks = clientLinks;
-    else                   navLinks = studentLinks;
-  }
+  // ✅ Better active logic
+  const isActive = (to) => {
+    if (to === "/") return pathname === "/";
+    return pathname === to || pathname.startsWith(to + "/");
+  };
 
   return (
     <aside
@@ -66,20 +88,24 @@ export default function Sidebar() {
         collapsed ? "w-16" : "w-60"
       }`}
     >
+      {/* Header */}
       <div className="flex items-center justify-between px-4 py-4 border-b border-slate-100">
         {!collapsed && (
           <span className="font-black text-lg text-slate-900">
             Quiz<span className="text-indigo-600">App</span>
           </span>
         )}
+
         <button
           onClick={() => setCollapsed(!collapsed)}
           className="w-8 h-8 rounded-lg flex items-center justify-center text-slate-400 hover:bg-slate-100 transition-all border border-slate-200"
+          title="Toggle Sidebar"
         >
           {collapsed ? "»" : "«"}
         </button>
       </div>
 
+      {/* Role Badge */}
       {token && !collapsed && (
         <div className="mx-3 mt-3 px-3 py-2 rounded-xl bg-indigo-50 border border-indigo-100">
           <p className="text-xs font-bold uppercase tracking-widest text-indigo-600">
@@ -88,9 +114,11 @@ export default function Sidebar() {
         </div>
       )}
 
+      {/* Navigation */}
       <nav className="flex flex-col gap-1 p-2 flex-1 pt-3">
         {navLinks.map(({ to, label, icon }) => {
-          const active = pathname === to || (to !== "/" && pathname.startsWith(to));
+          const active = isActive(to);
+
           return (
             <Link
               key={to}
@@ -102,8 +130,12 @@ export default function Sidebar() {
                   : "border-transparent text-slate-600 hover:bg-slate-100"
               }`}
             >
-              <span className="text-base w-5 text-center shrink-0">{icon}</span>
+              <span className="text-base w-5 text-center shrink-0">
+                {icon}
+              </span>
+
               {!collapsed && <span>{label}</span>}
+
               {active && !collapsed && (
                 <span className="ml-auto w-2 h-2 rounded-full bg-indigo-600" />
               )}
@@ -112,10 +144,12 @@ export default function Sidebar() {
         })}
       </nav>
 
+      {/* Logout */}
       <div className="p-3 border-t border-slate-100">
         {token && (
           <button
             onClick={handleLogout}
+            title="Logout"
             className="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-sm font-medium border border-rose-200 bg-rose-50 hover:bg-rose-100 text-rose-600 transition-all"
           >
             <span className="text-base w-5 text-center shrink-0">🚪</span>

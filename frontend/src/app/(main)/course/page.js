@@ -30,7 +30,7 @@ export default function CoursesPage() {
   const {
     data: courses, loading, currentPage, totalPages,
     totalItems, pageNumbers, hasPrev, hasNext, fetchData, goToPage,
-  } = usePagination(COURSES_URL, { itemsPerPage: 8 });
+  } = usePagination(COURSES_URL, { itemsPerPage: 5 });
 
   useEffect(() => {
     fetchData({ page: currentPage, search: debouncedSearch });
@@ -120,7 +120,7 @@ export default function CoursesPage() {
                     onClick={() => router.push(`/course/${course.id}/batches`)}
                     className="grid grid-cols-12 px-6 py-4 items-center hover:bg-indigo-50 transition cursor-pointer group">
                     <div className="col-span-1 text-xs text-slate-400 font-mono">
-                      {(currentPage - 1) * 8 + i + 1}
+                      {(currentPage - 1) * 5 + i + 1}
                     </div>
                     <div className="col-span-7 flex items-center gap-2">
                       <span className="font-semibold text-sm text-slate-800 group-hover:text-indigo-700 transition">

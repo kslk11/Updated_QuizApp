@@ -79,7 +79,7 @@ export default function BatchesPage() {
 
         {/* Breadcrumb */}
         <div className="flex items-center gap-2 text-sm text-slate-400 mb-6">
-          <button onClick={() => router.push("/courses")} className="hover:text-indigo-600 font-medium transition">Courses</button>
+          <button onClick={() => router.push("/course")} className="hover:text-indigo-600 font-medium transition">Courses</button>
           <span>/</span>
           <span className="text-slate-700 font-semibold">{courseName || `Course #${courseId}`}</span>
           <span>/</span>
