@@ -3,7 +3,7 @@ import { useState, useEffect, useCallback, useRef } from "react";
 import axios from "axios";
 import { API_BASE_URL } from "../../../config/api";
 
-// ─── usePagination ────────────────────────────────────────────────────────────
+//usePagination 
 const usePagination = (url, { itemsPerPage = 6 } = {}) => {
   const [data, setData]       = useState([]);
   const [loading, setLoading] = useState(false);
@@ -74,7 +74,7 @@ const usePagination = (url, { itemsPerPage = 6 } = {}) => {
   };
 };
 
-// ─── useDebounce ──────────────────────────────────────────────────────────────
+//useDebounce
 const useDebounce = (value, delay = 500) => {
   const [debouncedValue, setDebouncedValue] = useState(value);
   useEffect(() => {
@@ -84,7 +84,7 @@ const useDebounce = (value, delay = 500) => {
   return debouncedValue;
 };
 
-// ─── Constants ────────────────────────────────────────────────────────────────
+//Constants
 const SUBJECTS = [
   "Mathematics", "Physics", "Chemistry", "Biology",
   "English Literature", "History", "Geography", "Computer Science",
@@ -173,7 +173,7 @@ const errSt = {
   display: "block", fontSize: "11px", color: "#ef4444", marginTop: "3px",
 };
 
-// ─── Sort Icon ────────────────────────────────────────────────────────────────
+//Sort Icon 
 function SortIcon({ active, order }) {
   if (!active)
     return (
@@ -192,7 +192,7 @@ function SortIcon({ active, order }) {
   );
 }
 
-// ─── Icons ────────────────────────────────────────────────────────────────────
+//Icons
 const EyeIcon = () => (
   <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
     <path strokeLinecap="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -210,7 +210,7 @@ const TrashIcon = ({ size = 13, color = "currentColor" }) => (
   </svg>
 );
 
-// ─── Main Page ────────────────────────────────────────────────────────────────
+// Main Page
 export default function TeachersCRUD() {
   const {
     data: teachers, loading, error,
@@ -347,7 +347,6 @@ export default function TeachersCRUD() {
     { label: "Actions",    col: null },
   ];
 
-  // ─────────────────────────────────────────────────────────────────────────────
   return (
     <div style={{ padding: "30px 32px", backgroundColor: "#f8fafc", minHeight: "100vh", fontFamily: "'DM Sans', sans-serif" }}>
       <style>{`
