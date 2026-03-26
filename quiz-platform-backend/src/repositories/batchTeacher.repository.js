@@ -17,6 +17,30 @@ const findMapping = async (batch_id, teacher_id) => {
   });
 };
 
+const getMappings = async ({ where, limit, offset }) => {
+  return await models.BatchTeacher.findAndCountAll({
+    where,
+    include: [
+      {
+        model: models.Teacher,
+        required: true, // 🔥 THIS FIXES null issue
+        include: [
+          {
+            model: models.User,
+            attributes: ["id", "name", "email"],
+          },
+        ],
+      },
+      {
+        model: models.Batch,
+        attributes: ["id", "name"],
+      },
+    ],
+    limit,
+    offset,
+    order: [["createdAt", "DESC"]],
+  });
+};
 const getByBatchId = async (batch_id) => {
   return await models.BatchTeacher.findAll({
     where: { batch_id },
@@ -41,4 +65,5 @@ export default {
   findMapping,
   getByBatchId,
   deleteMapping,
+  getMappings
 };
