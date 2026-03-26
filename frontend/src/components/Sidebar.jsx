@@ -10,7 +10,7 @@ const guestLinks = [
   { to: "/auth/signup", label: "Sign Up", icon: "◌" },
 ];
 const adminLinks = [
-  { to: "/admindashboard", label: "Dashboard",     icon: "⊞" },
+  { to: "/admin/admindashboard", label: "Dashboard",     icon: "⊞" },
   { to: "/admin",          label: "Client Manage", icon: "👥" },
 ];
 const clientLinks = [
@@ -48,7 +48,7 @@ export default function Sidebar() {
     localStorage.removeItem("userId");
     setToken(null);
     setRole(null);
-    router.push("/login");
+    router.push("/auth/login");
   };
 
   let navLinks = guestLinks;
