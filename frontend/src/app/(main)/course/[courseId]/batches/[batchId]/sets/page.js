@@ -3,9 +3,9 @@ import axios from "axios";
 import { useEffect, useRef, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { toast } from "react-toastify";
-import { API_BASE_URL } from "../../../../../../config/api";
-import usePagination from "../../../../../../hooks/usePagination";
-import useDebounce from "../../../../../../hooks/useDebounce";
+import { API_BASE_URL } from "../../../../../../../config/api"
+import usePagination from "../../../../../../../hooks/usePagination"
+import useDebounce from "../../../../../../../hooks/useDebounce"
 
 const SETS_URL = `${API_BASE_URL}/api/client`;
 
