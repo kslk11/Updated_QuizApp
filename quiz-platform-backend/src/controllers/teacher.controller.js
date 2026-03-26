@@ -1,7 +1,6 @@
 import clientRepo from "../repositories/clientRepo.js";
 import teacherService from "../services/teacher.service.js";
 
-// ✅ CREATE
 const createTeacher = async (req, res) => {
   try {
 
@@ -25,7 +24,6 @@ const createTeacher = async (req, res) => {
   }
 };
 
-// ✅ GET ALL
 const getTeachers = async (req, res) => {
   try {
 
@@ -47,7 +45,6 @@ const getTeachers = async (req, res) => {
   }
 };
 
-// ✅ GET BY ID
 const getTeacherById = async (req, res) => {
   try {
 
@@ -67,7 +64,6 @@ const getTeacherById = async (req, res) => {
   }
 };
 
-// ✅ UPDATE
 const updateTeacher = async (req, res) => {
   try {
 
@@ -87,7 +83,6 @@ const updateTeacher = async (req, res) => {
   }
 };
 
-// ✅ DELETE
 const deleteTeacher = async (req, res) => {
   try {
 
