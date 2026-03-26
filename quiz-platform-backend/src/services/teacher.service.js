@@ -61,10 +61,10 @@ const createTeacherService = async (data) => {
 };
 
 // ✅ GET ALL
-const getTeachers = async (page, limit, search) => {
+const getTeachers = async (page, limit, search,client_id) => {
 
-  const result = await teacherRepo.getTeachers(page, limit, search);
-
+  console.log("ClientID",client_id)
+  const result = await teacherRepo.getTeachers(page, limit, search,client_id);
   return {
     total: result.count,
     page: Number(page),

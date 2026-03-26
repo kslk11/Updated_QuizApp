@@ -173,6 +173,9 @@ BatchTeacher.belongsTo(Teacher, {
 BatchTeacher.belongsTo(Batch, {
   foreignKey: "batch_id",
 });
+Teacher.belongsTo(Client,{
+  foreignKey: "client_id",
+});
 export default {
   User,
   Client,

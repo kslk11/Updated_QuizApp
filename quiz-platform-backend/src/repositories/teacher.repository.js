@@ -11,13 +11,13 @@ const getTeacherById = async (id) => {
   return await models.Teacher.findByPk(id);
 };
 
-const getTeachers = async (page = 1, limit = 10, search = null) => {
+const getTeachers = async (page = 1, limit = 10, search = null,client_id) => {
 
   const pageNum = parseInt(page) || 1;
   const limitNum = parseInt(limit) || 10;
   const offset = (pageNum - 1) * limitNum;
 
-  const where = {};
+  const where = {client_id};
 
   if (search) {
     where.name = {
@@ -40,11 +40,12 @@ const getTeachers = async (page = 1, limit = 10, search = null) => {
 
 const updateTeacher = async (id, data) => {
 
-  const teacher = await models.Teacher.findByPk(id);
-  const user =  await models.User.findOne({where:{
-    user_id:id
-  }})
+ const teacher = await models.Teacher.findByPk(id);
+if (!teacher) return null;
+
+const user = await models.User.findByPk(teacher.user_id);
   console.log(user)
+  return
   if (!teacher) return null;
 
   console.log(teacher);

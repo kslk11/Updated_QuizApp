@@ -3,10 +3,10 @@ import axios from "axios";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 import { API_BASE_URL } from "../../../config/api";
-import usePagination from "../../../hooks/usePagination";
 import useDebounce from "../../../hooks/useDebounce";
+import usePagination from "../../../hooks/usePagination";
 
-const MAPPING_URL  = `${API_BASE_URL}/api/batch-teacher/assign`;
+const MAPPING_URL  = `${API_BASE_URL}/api/batch-teacher`;
 const BATCHES_URL  = `${API_BASE_URL}/api/batches`;
 const TEACHERS_URL = `${API_BASE_URL}/api/teachers`;
 
@@ -242,7 +242,7 @@ export default function BatchTeacherPage() {
         await axios.put(`${MAPPING_URL}/${editId}`, singleForm, getAuthHeaders());
         toast.success("Mapping updated");
       } else {
-        await axios.post(MAPPING_URL, singleForm, getAuthHeaders());
+        await axios.post(`${MAPPING_URL}/assign`, singleForm, getAuthHeaders());
         toast.success("Teacher assigned to batch");
       }
       closeModal(); refresh();
@@ -274,7 +274,7 @@ export default function BatchTeacherPage() {
     let success = 0, skipped = 0, failed = 0;
     for (const batch_id of bulkBatchIds) {
       try {
-        await axios.post(MAPPING_URL, { batch_id, teacher_id: bulkTeacherId }, getAuthHeaders());
+        await axios.post(`${MAPPING_URL}/assign-multiple`, { batch_id, teacher_id: bulkTeacherId }, getAuthHeaders());
         success++;
       } catch (err) {
         if (err.response?.status === 409 || err.response?.data?.message?.toLowerCase().includes("unique"))
@@ -395,7 +395,7 @@ export default function BatchTeacherPage() {
               {/* Rows */}
               <div className="divide-y divide-slate-100">
                 {mappings.map((m, i) => {
-                  const tName = m.Teacher?.name ?? m.teacher?.name ?? getTeacherName(m.teacher_id);
+                  const tName = m.Teacher?.User.name ?? m.teacher?.name ?? getTeacherName(m.teacher_id);
                   const bName = m.Batch?.name   ?? m.batch?.name   ?? getBatchName(m.batch_id);
                   const tColor = avatarColor(tName);
 

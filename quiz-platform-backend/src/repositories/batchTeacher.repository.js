@@ -52,18 +52,38 @@ const getByBatchId = async (batch_id) => {
   });
 };
 
-const deleteMapping = async (batch_id, teacher_id, { transaction }) => {
-  return await models.BatchTeacher.destroy({
-    where: { batch_id, teacher_id },
+// const deleteMapping = async (batch_id, teacher_id, { transaction }) => {
+//   return await models.BatchTeacher.destroy({
+//     where: { batch_id, teacher_id },
+//     transaction,
+//   });
+// };
+const updateMapping = async (id, data, { transaction }) => {
+  return await models.BatchTeacher.update(data, {
+    where: { id },
     transaction,
   });
 };
 
+const findById = async (id) => {
+  return await models.BatchTeacher.findOne({
+    where: { id },
+  });
+};
+
+const deleteMapping = async (id, { transaction }) => {
+  return await models.BatchTeacher.destroy({
+    where: { id },
+    transaction,
+  });
+};
 export default {
   createMapping,
   bulkCreateMapping,
   findMapping,
   getByBatchId,
   deleteMapping,
-  getMappings
+  getMappings,
+  updateMapping,
+  findById
 };

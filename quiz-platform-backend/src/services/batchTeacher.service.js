@@ -1,6 +1,6 @@
 import sequelize from "../config/sequelizeConfig.js";
 import batchTeacherRepo from "../repositories/batchTeacher.repository.js";
-
+import models from "../../models/index.js";
 const assignTeacherToBatch = async (data) => {
   const transaction = await sequelize.transaction();
   try {
@@ -99,11 +99,78 @@ const removeTeacherFromBatch = async (batch_id, teacher_id) => {
     throw error;
   }
 };
+const updateBatchTeacher = async (id, data, client_id) => {
+  const transaction = await sequelize.transaction();
 
+  try {
+    const existing = await batchTeacherRepo.findById(id);
+
+    if (!existing) {
+      throw new Error("Mapping not found");
+    }
+
+    // 🔐 Client validation
+    if (existing.client_id !== client_id) {
+      throw new Error("Unauthorized access");
+    }
+
+    // ✅ Optional: validate teacher if updating
+    if (data.teacher_id) {
+      const teacher = await models.Teacher.findOne({
+        where: { id: data.teacher_id },
+      });
+
+      if (!teacher) {
+        throw new Error("Teacher not found");
+      }
+
+      if (teacher.client_id !== client_id) {
+        throw new Error("Teacher does not belong to this client");
+      }
+    }
+
+    await batchTeacherRepo.updateMapping(id, data, { transaction });
+
+    const updated = await batchTeacherRepo.findById(id);
+
+    await transaction.commit();
+    return updated;
+  } catch (error) {
+    await transaction.rollback();
+    throw error;
+  }
+};
+
+const deleteBatchTeacher = async (id, client_id) => {
+  const transaction = await sequelize.transaction();
+
+  try {
+    const existing = await batchTeacherRepo.findById(id);
+
+    if (!existing) {
+      throw new Error("Mapping not found");
+    }
+
+    // 🔐 Client validation
+    if (existing.client_id !== client_id) {
+      throw new Error("Unauthorized access");
+    }
+
+    await batchTeacherRepo.deleteMapping(id, { transaction });
+
+    await transaction.commit();
+    return true;
+  } catch (error) {
+    await transaction.rollback();
+    throw error;
+  }
+};
 export default {
   assignTeacherToBatch,
   assignMultipleTeachers,
   getTeachersByBatch,
   removeTeacherFromBatch,
-  getAllMappings
+  getAllMappings,
+  deleteBatchTeacher,
+  updateBatchTeacher
 };

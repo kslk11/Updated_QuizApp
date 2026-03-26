@@ -107,11 +107,60 @@ const removeTeacher = async (req, res) => {
     });
   }
 };
+const updateMapping = async (req, res) => {
+  try {
+    const { id } = req.params;
 
+    const client = await models.Client.findOne({
+      where: { user_id: req.user.id },
+    });
+
+    const result = await batchTeacherService.updateBatchTeacher(
+      id,
+      req.body,
+      client.id
+    );
+
+    return res.status(200).json({
+      success: true,
+      message: "Mapping updated successfully",
+      data: result,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+const deleteMapping = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const client = await models.Client.findOne({
+      where: { user_id: req.user.id },
+    });
+
+    await batchTeacherService.deleteBatchTeacher(id, client.id);
+
+    return res.status(200).json({
+      success: true,
+      message: "Mapping deleted successfully",
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
 export default {
   assignTeacher,
   assignMultiple,
   getBatchTeachers,
   removeTeacher,
-  getAllMappings
+  getAllMappings,
+  updateMapping,
+  deleteMapping
 };
