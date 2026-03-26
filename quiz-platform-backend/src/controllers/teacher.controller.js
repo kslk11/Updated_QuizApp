@@ -35,10 +35,11 @@ const createTeacher = async (req, res) => {
 
 const getTeachers = async (req, res) => {
   try {
-
+    const clientId = await clientRepo.findClientByUserId(req.user.id)
+   
     const { page = 1, limit = 10, search = null } = req.query;
 
-    const teachers = await teacherService.getTeachers(page, limit, search);
+    const teachers = await teacherService.getTeachers(page, limit, search,clientId.id);
 
     return res.status(200).json({
       success: true,

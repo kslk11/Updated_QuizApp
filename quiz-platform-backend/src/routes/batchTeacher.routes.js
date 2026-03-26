@@ -10,5 +10,6 @@ router.post("/assign-multiple",authMiddleware,roleMiddleware(2), controller.assi
 router.get("/batch/:batch_id",authMiddleware,roleMiddleware(2), controller.getBatchTeachers);
 router.delete("/remove", authMiddleware,roleMiddleware(2),controller.removeTeacher);
 router.get("/", authMiddleware,roleMiddleware(2),controller.getAllMappings);
-
+router.put("/:id", authMiddleware,roleMiddleware(2),controller.updateMapping);
+router.delete("/:id", authMiddleware,roleMiddleware(2),controller.deleteMapping);
 export default router;
