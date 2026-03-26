@@ -30,7 +30,8 @@ const createTeacherService = async (data) => {
         email,
         password: hashedPassword,
         age,
-        role_id: 3, 
+        // role_id: 3, 
+        role_id: 4, 
       },
       { transaction: t }
     );
