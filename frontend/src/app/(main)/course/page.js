@@ -6,7 +6,7 @@ import { API_BASE_URL } from "../../../config/api"
 import usePagination from "../../../hooks/usePagination";
 import useDebounce from "../../../hooks/useDebounce";
 
-const COURSES_URL = `${API_BASE_URL}/api/courses`;
+const COURSES_URL = `${API_BASE_URL}/api/course`;
 
 const getAuthHeaders = () => ({
   headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
@@ -36,7 +36,7 @@ export default function CoursesPage() {
     fetchData,
     goToPage,
   } = usePagination(COURSES_URL, { itemsPerPage: 8 });
-
+console.log("data",courses)
   // fetch on page or search change
   useEffect(() => {
     fetchData({ page: currentPage, search: debouncedSearch });

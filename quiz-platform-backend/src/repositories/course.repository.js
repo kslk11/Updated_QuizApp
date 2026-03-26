@@ -10,7 +10,18 @@ export const findCourseByName = (name, client_id) => {
   });
 };
 
-export const getCoursesRepo = (client_id, limit, offset) => {
+export const getCoursesRepo = async (client_id, limit, offset) => {
+  console.log("client_id:", client_id);
+
+  const all = await models.Course.findAll({ paranoid: false });
+  console.log("ALL COURSES:", all);
+
+  const filtered = await models.Course.findAll({
+    where: { client_id },
+  });
+
+  console.log("FILTERED:", filtered);
+
   return models.Course.findAndCountAll({
     where: { client_id },
     limit,
