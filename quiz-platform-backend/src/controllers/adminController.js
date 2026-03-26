@@ -29,6 +29,7 @@ const getAllClient = async (req, res) => {
     const clients = await models.Client.findAll({
       include: [{
         model: models.User,
+        as: 'users', 
         attributes: ['id', 'name', 'email']
       }]
     });

@@ -15,7 +15,7 @@ import User from "./user.js";
 
 // User → Client
 User.hasOne(Client, { foreignKey: "user_id", onDelete: "CASCADE" });
-Client.belongsTo(User, { foreignKey: "user_id" });
+Client.belongsTo(User, { foreignKey: "user_id",as:"users" });
 
 // User → Teacher
 User.hasOne(Teacher, { foreignKey: "user_id", onDelete: "CASCADE" });
