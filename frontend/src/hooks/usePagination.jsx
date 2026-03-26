@@ -1,10 +1,11 @@
+"use client";
 import { useState, useCallback } from "react";
 import axios from "axios";
 
 const usePagination = (url, { itemsPerPage = 6 } = {}) => {
-  const [data, setData]       = useState([]);
+  const [data,    setData]    = useState([]);
   const [loading, setLoading] = useState(false);
-  const [error, setError]     = useState(null);
+  const [error,   setError]   = useState(null);
 
   const [meta, setMeta] = useState({
     currentPage:  1,
@@ -32,24 +33,36 @@ const usePagination = (url, { itemsPerPage = 6 } = {}) => {
           limit,
           ...(search.trim() && { search: search.trim() }),
           ...(sortBy.trim() && { sortBy }),
-          ...(sortOrder && { sortOrder }),
+          ...(sortOrder     && { sortOrder }),
         },
       });
 
-      const d = res.data ?? res.data.data
-      // const d = res.data
+      // ✅ FIXED: prefer res.data.data (nested) then fall back to res.data (flat)
+      const d = res.data?.data ?? res.data;
+      console.log(res.data);
 
-      // Extract rows — handles { bundles: [...] }, { data: [...] }, { rows: [...] }
-      const rows= d.data ?? d.rows ?? d.quizzes ?? [];
+      // Extract rows — handles all common API shapes
+      const rows =
+        d.teachers  ??   // { data: { teachers: [...] } }
+        d.bundles   ??   // { data: { bundles: [...] } }
+        d.batches   ??   // { data: { batches: [...] } }
+        d.courses   ??   // { data: { courses: [...] } }
+        d.quizzes   ??   // { data: { quizzes: [...] } }
+        d.students  ??   // { data: { students: [...] } }
+        d.data      ??   // { data: { data: [...] } }
+        d.rows      ??   // { data: { rows: [...] } }
+        (Array.isArray(d) ? d : []);  // { data: [...] } flat array
 
-      // Extract totals
+      // Extract pagination metadata — handles all common shapes
       const totalItems =
+        res.data.total           ??   // flat: { total: 3 }
         d.totalRecords           ??
         d.pagination?.totalItems ??
         d.total                  ??
         0;
 
       const totalPages =
+        res.data.totalPages       ||   // flat: { totalPages: 1 }
         d.totalPages              ||
         d.pagination?.totalPages  ||
         d.pages                   ||
@@ -57,13 +70,12 @@ const usePagination = (url, { itemsPerPage = 6 } = {}) => {
         1;
 
       const currentPage =
+        res.data.page             ??   // flat: { page: 1 }
         d.currentPage             ??
         d.pagination?.currentPage ??
         page;
 
-      // ✅ Store only the array, not the whole object
       setData(rows);
-      console.log("in pagination",rows);
       setMeta({ currentPage, totalPages, totalItems, itemsPerPage: limit });
 
     } catch (err) {
