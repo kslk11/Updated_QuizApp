@@ -11,12 +11,14 @@ const getBatches = async (page, limit, search, course_id, sortOrder) => {
   return await batchRepo.getBatches(page, limit, search, course_id, sortOrder);
 };
 
-const getBatchById = async (id) => {
-  const batch = await batchRepo.getBatchById(id);
+const getBatchById = async (course_id, page, limit) => {
+  const result = await batchRepo.getBatchById(course_id, page, limit);
 
-  if (!batch) throw new Error("Batch not found");
+  if (!result.data.length) {
+    throw new Error("No batches found");
+  }
 
-  return batch;
+  return result;
 };
 
 const updateBatch = async (id, data) => {

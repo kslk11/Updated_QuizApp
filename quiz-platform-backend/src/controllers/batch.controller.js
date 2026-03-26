@@ -1,6 +1,7 @@
 import models from "../../models/index.js";
 import clientRepo from "../repositories/clientRepo.js";
 import batchService from "../services/batch.service.js";
+import { Op } from "sequelize";
 
 // CREATE
 const createBatch = async (req, res) => {
@@ -59,18 +60,28 @@ const getBatches = async (req, res) => {
 // GET BY ID
 const getBatchById = async (req, res) => {
   try {
-    const batch = await batchService.getBatchById(req.params.id);
+    const { page = 1, limit = 10 } = req.query;
+
+    const result = await batchService.getBatchById(
+      req.params.id,
+      page,
+      limit
+    );
 
     return res.status(200).json({
       success: true,
-      message: "Batch fetched successfully",
-      data: batch
+      message: "Batches fetched successfully",
+      ...result
     });
 
   } catch (error) {
-    return res.status(404).json({ success: false, message: error.message });
+    return res.status(404).json({
+      success: false,
+      message: error.message
+    });
   }
 };
+
 
 // UPDATE
 const updateBatch = async (req, res) => {
