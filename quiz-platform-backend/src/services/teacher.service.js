@@ -1,14 +1,62 @@
+import bcrypt from 'bcrypt';
 import sequelize from "../config/sequelizeConfig.js";
 import teacherRepo from "../repositories/teacher.repository.js";
+import userRepo from "../repositories/userRepo.js";
+const createTeacherService = async (data) => {
+  const t = await sequelize.transaction();
 
-const createTeacher = async (data) => {
+  try {
+    const {
+      name,
+      email,
+      password,
+      age,
+      client_id,
+      specialization,
+      experience_years,
+      bio,
+    } = data;
 
-  return await sequelize.transaction(async (t) => {
+    const existingUser = await userRepo.findUserByEmail(email,{ transaction: t });
+    if (existingUser) {
+      throw new Error("Email already exists");
+    }
 
-    const teacher = await teacherRepo.createTeacher(data, t);
+    const hashedPassword = await bcrypt.hash(password, 10);
 
-    return teacher;
-  });
+    const user = await userRepo.createUser(
+      {
+        name,
+        email,
+        password: hashedPassword,
+        age,
+        role_id: 3, 
+      },
+      { transaction: t }
+    );
+
+    const teacher = await teacherRepo.createTeacher(
+      {
+        user_id: user.id,
+        client_id,
+        specialization,
+        experience_years,
+        bio,
+      },
+      { transaction: t }
+    );
+
+    await t.commit();
+
+    return {
+      teacher,
+      user,
+    };
+
+  } catch (error) {
+    await t.rollback();
+    throw error;
+  }
 };
 
 // ✅ GET ALL
@@ -72,7 +120,7 @@ const deleteTeacher = async (id) => {
 };
 
 export default {
-  createTeacher,
+  createTeacherService,
   getTeachers,
   getTeacherById,
   updateTeacher,

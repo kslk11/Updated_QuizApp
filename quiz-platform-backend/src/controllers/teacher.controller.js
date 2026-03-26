@@ -3,23 +3,32 @@ import teacherService from "../services/teacher.service.js";
 
 const createTeacher = async (req, res) => {
   try {
+    const client = await clientRepo.findClientByUserId(req.user.id);
 
-      const client_id = await clientRepo.findClientByUserId(req.user.id)
-      const data = {
-        ...req.body,
-        client_id:client_id.id
-      }
-    const teacher = await teacherService.createTeacher(data);
+    if (!client) {
+      return res.status(404).json({
+        success: false,
+        message: "Client not found",
+      });
+    }
+
+    const data = {
+      ...req.body,
+      client_id: client.id,
+    };
+
+    const teacher = await teacherService.createTeacherService(data);
+
     return res.status(201).json({
       success: true,
       message: "Teacher created successfully",
-      data: teacher
+      data: teacher,
     });
 
   } catch (error) {
     return res.status(500).json({
       success: false,
-      message: error.message
+      message: error.message,
     });
   }
 };

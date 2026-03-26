@@ -1,8 +1,8 @@
 import { Op } from "sequelize";
 import models from "../../models/index.js";
 
-const createTeacher = async (data, transaction = null) => {
-  return await models.Teacher.create(data, { transaction });
+const createTeacher = (data, options = {}) => {
+  return models.Teacher.create(data, options);
 };
 
 const getTeacherById = async (id) => {
