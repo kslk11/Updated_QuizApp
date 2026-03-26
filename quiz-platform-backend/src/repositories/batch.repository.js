@@ -1,20 +1,16 @@
 import { Op } from "sequelize";
 import models from "../../models/index.js";
 
-// ✅ CREATE BATCH
 const createBatch = async (data, transaction = null) => {
   return await models.Batch.create(data, { transaction });
 };
 
-// ✅ GET SINGLE BATCH BY ID
 const getBatchById = async (id) => {
   console.log("repoBatchId", id);
 
   return await models.Batch.findByPk(id); 
-  // paranoid automatically ignores deleted records
 };
 
-// ✅ GET ALL BATCHES (PAGINATION + SEARCH)
 const getBatches = async (page = 1, limit = 10, search = null) => {
 
   const offset = (page - 1) * limit;
