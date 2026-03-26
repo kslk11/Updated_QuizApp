@@ -45,6 +45,41 @@ const assignMultipleTeachers = async (batch_id, teacherIds, client_id) => {
   }
 };
 
+const getAllMappings = async (query, user) => {
+  const page = parseInt(query.page) || 1;
+  const limit = parseInt(query.limit) || 10;
+  const offset = (page - 1) * limit;
+
+  let where = {};
+
+  // 🔐 Client-based filtering (important for multi-tenant)
+  if (user?.id) {
+    where.client_id = user.client_id; // or fetch from DB like earlier
+  }
+
+  // 🔍 Optional filters
+  if (query.batch_id) {
+    where.batch_id = query.batch_id;
+  }
+
+  if (query.teacher_id) {
+    where.teacher_id = query.teacher_id;
+  }
+
+  const { count, rows } = await batchTeacherRepo.getMappings({
+    where,
+    limit,
+    offset,
+  });
+
+  return {
+    total: count,
+    page,
+    limit,
+    totalPages: Math.ceil(count / limit),
+    data: rows,
+  };
+};
 const getTeachersByBatch = async (batch_id) => {
   return await batchTeacherRepo.getByBatchId(batch_id);
 };
@@ -70,4 +105,5 @@ export default {
   assignMultipleTeachers,
   getTeachersByBatch,
   removeTeacherFromBatch,
+  getAllMappings
 };

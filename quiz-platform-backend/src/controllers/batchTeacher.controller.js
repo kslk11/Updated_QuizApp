@@ -49,7 +49,29 @@ const assignMultiple = async (req, res) => {
     });
   }
 };
+const getAllMappings = async (req, res) => {
+  try {
+    // get client_id from logged-in user
+    const client = await models.Client.findOne({
+      where: { user_id: req.user.id },
+    });
 
+    const result = await batchTeacherService.getAllMappings(req.query, {
+      client_id: client.id,
+    });
+
+    return res.status(200).json({
+      success: true,
+      message: "Batch-Teacher mappings fetched successfully",
+      ...result,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
 const getBatchTeachers = async (req, res) => {
   try {
     const { batch_id } = req.params;
@@ -91,4 +113,5 @@ export default {
   assignMultiple,
   getBatchTeachers,
   removeTeacher,
+  getAllMappings
 };
