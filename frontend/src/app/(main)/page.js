@@ -5,6 +5,9 @@ import { useEffect, useState } from "react";
 import { API_BASE_URL } from "../../config/api";
 import usePagination from "../../hooks/usePagination";
 import useDebounce from "../../hooks/useDebounce";
+import useTabSwitch from "../../hooks/useTabSwitch";
+import { toast } from "react-toastify";
+
 
 const CATEGORIES_URL_AUTH   = `${API_BASE_URL}/api/client/bundle`;
 const CATEGORIES_URL_NOAUTH = `${API_BASE_URL}/api/client/bundlesNoauth`;
@@ -20,11 +23,28 @@ export default function Home() {
   const [search, setSearch] = useState("");
   const debouncedSearch     = useDebounce(search, 500);
 
+  const [count, setCount] = useState(0);
+  
+  useTabSwitch(() => {
+    setCount((prev) => {
+      const newCount = prev + 1;
+
+      toast.error(`Warning! Tab switched ${newCount} times`);
+
+      if (newCount >= 3) {
+        alert("Quiz auto-submitted!");
+        //call your submit API here
+      }
+
+      return newCount;
+    });
+  });
+
   const roleNum = typeof window !== "undefined"
     ? Number(localStorage.getItem("role") ?? 0)
     : 0;
   const categoriesUrl = roleNum === 2 ? CATEGORIES_URL_AUTH : CATEGORIES_URL_NOAUTH;
-
+  
   const {
     data: categories,
     loading,
