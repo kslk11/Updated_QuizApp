@@ -95,11 +95,13 @@ const updateBatch = async (req, res) => {
     });
 
   } catch (error) {
-    return res.status(404).json({ success: false, message: error.message });
+    return res.status(404).json({
+      success: false,
+      message: error.message
+    });
   }
 };
 
-// DELETE
 const deleteBatch = async (req, res) => {
   try {
     await batchService.deleteBatch(req.params.id);
@@ -110,7 +112,10 @@ const deleteBatch = async (req, res) => {
     });
 
   } catch (error) {
-    return res.status(404).json({ success: false, message: error.message });
+    return res.status(404).json({
+      success: false,
+      message: error.message
+    });
   }
 };
 
