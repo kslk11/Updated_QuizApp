@@ -11,14 +11,14 @@ const guestLinks = [
 ];
 const adminLinks = [
   { to: "/admin/admindashboard", label: "Dashboard",     icon: "⊞" },
-  { to: "/admin",          label: "Client Manage", icon: "👥" },
+  { to: "/admin/clientmanagement",          label: "Client Manage", icon: "👥" },
 ];
 const clientLinks = [
-  { to: "/categories", label: "Manage Categories", icon: "📁" },
+  { to: "/course", label: "Manage Course", icon: "📁" },
 ];
 const studentLinks = [
   { to: "/",           label: "Home",        icon: "⊞" },
-  { to: "/categories", label: "Test Series", icon: "📝" },
+  { to: "/courses", label: "Test Series", icon: "📝" },
   { to: "/history",    label: "History",     icon: "⏳" },
 ];
 const roleNames = { "1": "Admin", "2": "Client", "3": "Student" };
