@@ -38,9 +38,8 @@ export const findCourseById = (id, client_id, options = {}) => {
 };
 
 export const updateCourseRepo = (course, data, options = {}) => {
-  return models.Course.update(data, options);
+  return course.update(data, options);
 };
-
 export const deleteCourseRepo = (course, options = {}) => {
-  return models.Course.destroy(options);
+  return course.destroy(options);
 };

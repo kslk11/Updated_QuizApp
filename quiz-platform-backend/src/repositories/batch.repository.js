@@ -1,42 +1,15 @@
 import { Op } from "sequelize";
 import models from "../../models/index.js";
 
-// ✅ CREATE BATCH
 const createBatch = async (data, transaction = null) => {
   return await models.Batch.create(data, { transaction });
 };
 
-// ✅ GET SINGLE BATCH BY ID
 const getBatchById = async (id) => {
-  console.log("repoBatchId", id);
-
-  return await models.Batch.findByPk(id); 
-  // paranoid automatically ignores deleted records
+  return await models.Batch.findAll({course_id:id});
 };
 
-// ✅ GET ALL BATCHES (PAGINATION + SEARCH)
-// const getBatches = async (page = 1, limit = 10, search = null) => {
-
-//   const offset = (page - 1) * limit;
-
-//   const where = {};
-
-//   if (search) {
-//     where.name = {
-//       [Op.like]: `%${search}%`
-//     };
-//   }
-
-//   const result = await models.Batch.findAndCountAll({
-//     where,
-//     limit,
-//     offset,
-//     order: [["createdAt", "DESC"]]
-//   });
-
-//   return result;
-// };
-const getBatches = async (page, limit, search = null, course_id, sortOrder = 'ASC') => {
+const getBatches = async (page, limit, search = null, course_id, sortOrder = "ASC") => {
   const pageNum = parseInt(page) || 1;
   const limitNum = parseInt(limit) || 10;
   const offset = (pageNum - 1) * limitNum;
@@ -53,48 +26,36 @@ const getBatches = async (page, limit, search = null, course_id, sortOrder = 'AS
     where.course_id = course_id;
   }
 
-  const batches = await models.Batch.findAndCountAll({
+  const result = await models.Batch.findAndCountAll({
     where,
     limit: limitNum,
     offset,
-    order: [['createdAt', sortOrder]]
+    order: [["createdAt", sortOrder]]
   });
 
   return {
-    total: batches.count,
-    data: batches.rows,
+    total: result.count,
+    data: result.rows,
     currentPage: pageNum,
-    totalPages: Math.ceil(batches.count / limitNum)
+    totalPages: Math.ceil(result.count / limitNum)
   };
 };
 
-
-// ✅ UPDATE BATCH
+// UPDATE
 const updateBatch = async (id, data) => {
-
   const batch = await models.Batch.findByPk(id);
-
   if (!batch) return null;
 
-  console.log(batch);
-
   await batch.update(data);
-
   return batch;
 };
 
-// ✅ DELETE BATCH (SOFT DELETE via paranoid)
+// DELETE
 const deleteBatch = async (id) => {
-
-  console.log("deleteBatchId", id);
-
   const batch = await models.Batch.findByPk(id);
-
   if (!batch) return null;
 
-  await batch.destroy(); 
-  // 👈 this sets deletedAt instead of deleting row
-
+  await batch.destroy();
   return batch;
 };
 
