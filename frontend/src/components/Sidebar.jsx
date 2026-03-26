@@ -16,6 +16,10 @@ const adminLinks = [
   { to: "/admin/clientmanagement", label: "Client Manage", icon: "👥" },
 ];
 
+const TeacherLinks=[
+  {to:"/batches", label:" ", icon:""},
+  {to:"", label:" ", icon:""}
+]
 const clientLinks = [
   { to: "/course", label: "Course Management", icon: "📚" },
   { to: "/teacher", label: "Teacher Management", icon: "🎓" },

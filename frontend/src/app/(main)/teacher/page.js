@@ -13,9 +13,7 @@ const getAuthHeaders = () => ({
 });
 
 const SUBJECTS = [
-  "Mathematics", "Physics", "Chemistry", "Biology",
-  "English Literature", "History", "Geography", "Computer Science",
-  "Art & Design", "Physical Education", "Music", "Economics", "Other",
+ "MERN","PYTHON","AWS","DATA SCIENCE","C","CPP","JAVASCRIPT"
 ];
 
 const EMPTY_FORM = {
@@ -198,7 +196,7 @@ export default function TeachersPage() {
   };
 
   const openCreate = () => { setForm({ ...EMPTY_FORM }); setEditingId(null); setFormErrors({}); setShowModal(true); };
-  const openEdit   = (t)  => { setForm({ ...t, password: "" }); setEditingId(t.id); setFormErrors({}); setShowModal(true); };
+  const openEdit   = (t)  => { setForm({ ...t, name: t.User?.name || "", email: t.User?.email || "",age:t.User.age||"", password: ""  }); setEditingId(t.id); setFormErrors({}); setShowModal(true); };
   const closeModal = ()   => { setShowModal(false); setFormErrors({}); };
 
   const handleSubmit = async () => {
@@ -522,10 +520,10 @@ export default function TeachersPage() {
             style={{ background:"#fff", borderRadius:"18px", width:"100%", maxWidth:"440px", overflow:"hidden", boxShadow:"0 24px 80px rgba(0,0,0,0.14)" }}>
             <div style={{ background:"linear-gradient(135deg,#3b82f6,#6366f1)", padding:"28px", textAlign:"center" }}>
               <div style={{ width:"64px", height:"64px", borderRadius:"50%", background:"rgba(255,255,255,0.18)", display:"flex", alignItems:"center", justifyContent:"center", margin:"0 auto 11px", fontSize:"22px", fontWeight:700, color:"#fff", border:"3px solid rgba(255,255,255,0.3)" }}>
-                {viewTeacher.name?.split(" ").map(n=>n[0]).slice(0,2).join("").toUpperCase()}
+                {viewTeacher.User.name?.split(" ").map(n=>n[0]).slice(0,2).join("").toUpperCase()}
               </div>
-              <div style={{ fontSize:"19px", fontWeight:700, color:"#fff", fontFamily:"'DM Serif Display',serif" }}>{viewTeacher.name}</div>
-              <div style={{ fontSize:"12px", color:"rgba(255,255,255,0.7)", marginTop:"3px" }}>{viewTeacher.email}</div>
+              <div style={{ fontSize:"19px", fontWeight:700, color:"#fff", fontFamily:"'DM Serif Display',serif" }}>{viewTeacher.User.name}</div>
+              <div style={{ fontSize:"12px", color:"rgba(255,255,255,0.7)", marginTop:"3px" }}>{viewTeacher.User.email}</div>
               <span style={{ display:"inline-block", marginTop:"9px", background:"rgba(255,255,255,0.16)", color:"#fff", fontSize:"11px", fontWeight:600, padding:"3px 11px", borderRadius:"20px", border:"1px solid rgba(255,255,255,0.26)" }}>
                 {viewTeacher.specialization}
               </span>
@@ -533,7 +531,7 @@ export default function TeachersPage() {
             <div style={{ padding:"20px 24px 24px" }}>
               <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:"11px", marginBottom:"14px" }}>
                 {[
-                  { label:"Age",        value:`${viewTeacher.age} years`             },
+                  { label:"Age",        value:`${viewTeacher.User.age} years`             },
                   { label:"Experience", value:`${viewTeacher.experience_years} years` },
                 ].map(item => (
                   <div key={item.label} style={{ background:"#f8fafc", borderRadius:"10px", padding:"12px 14px" }}>
