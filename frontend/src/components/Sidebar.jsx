@@ -14,7 +14,9 @@ const adminLinks = [
   { to: "/admin/clientmanagement",          label: "Client Manage", icon: "👥" },
 ];
 const clientLinks = [
-  { to: "/course", label: "Manage Course", icon: "📁" },
+  { to: "/course", label: "Course Management", icon: "📁" },
+  { to: "/batch", label: "Batch Management", icon: "📁" },
+
 ];
 const studentLinks = [
   { to: "/",           label: "Home",        icon: "⊞" },
