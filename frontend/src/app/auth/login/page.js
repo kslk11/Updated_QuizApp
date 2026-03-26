@@ -30,8 +30,8 @@ export default function LoginPage() {
 
       toast.success("Login successful! Welcome back 👋");
 
-      if (res.data.user.role_id == 1)      router.push("/admindashboard");
-      else if (res.data.user.role_id == 2) router.push("/categories");
+      if (res.data.user.role_id == 1)      router.push("/admin/admindashboard");
+      else if (res.data.user.role_id == 2) router.push("/course");
       else                                 router.push("/");
     } catch (err) {
       toast.error(

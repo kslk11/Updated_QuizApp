@@ -11,7 +11,7 @@ const getAuthHeaders = () => ({
   headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
 });
 
-// ── Animated counter ────────────────────────────────────────────────────────
+//Animated counter 
 function useCountUp(target, duration = 1400, start = false) {
   const [val, setVal] = useState(0);
   useEffect(() => {
@@ -28,7 +28,7 @@ function useCountUp(target, duration = 1400, start = false) {
   return val;
 }
 
-// ── Sparkline ───────────────────────────────────────────────────────────────
+//Sparkline 
 function Sparkline({ points, color, width = 80, height = 32 }) {
   const max = Math.max(...points), min = Math.min(...points);
   const range = max - min || 1;
@@ -45,7 +45,7 @@ function Sparkline({ points, color, width = 80, height = 32 }) {
   );
 }
 
-// ── Stat Card ───────────────────────────────────────────────────────────────
+//Stat Card 
 function StatCard({ icon, label, value, sub, color, sparkPoints, delay, started }) {
   const animated = useCountUp(typeof value === "number" ? value : 0, 1400, started);
   const display  = typeof value === "number" ? animated : value;
@@ -74,7 +74,7 @@ function StatCard({ icon, label, value, sub, color, sparkPoints, delay, started 
   );
 }
 
-// ── Section Card ─────────────────────────────────────────────────────────────
+//Section Card
 function SectionCard({ children, delay, className = "" }) {
   return (
     <div className={`rounded-2xl border border-slate-200 bg-white p-6 fade-in ${className}`}
@@ -84,7 +84,7 @@ function SectionCard({ children, delay, className = "" }) {
   );
 }
 
-// ── Section Header ────────────────────────────────────────────────────────────
+//Section Header
 function SectionHeader({ title, accentColor, action }) {
   return (
     <div className="flex items-center justify-between mb-5">
@@ -97,7 +97,7 @@ function SectionHeader({ title, accentColor, action }) {
   );
 }
 
-// ── Activity Row ──────────────────────────────────────────────────────────────
+//Activity Row
 function ActivityRow({ icon, title, desc, time, color, badge }) {
   return (
     <div className="flex items-start gap-3 py-3 border-b border-slate-100 last:border-b-0 px-1 rounded-lg transition-colors">
@@ -122,7 +122,7 @@ function ActivityRow({ icon, title, desc, time, color, badge }) {
   );
 }
 
-// ── Donut Ring ────────────────────────────────────────────────────────────────
+//Donut Ring 
 function DonutRing({ pct, color, size = 72, label, sublabel }) {
   const r    = (size - 10) / 2;
   const circ = 2 * Math.PI * r;
@@ -146,7 +146,7 @@ function DonutRing({ pct, color, size = 72, label, sublabel }) {
   );
 }
 
-// ── Quick Action ─────────────────────────────────────────────────────────────
+//Quick Action
 function QuickAction({ icon, label, desc, color, onClick }) {
   return (
     <button onClick={onClick}
@@ -168,7 +168,7 @@ function QuickAction({ icon, label, desc, color, onClick }) {
   );
 }
 
-// ── Avatar helpers ────────────────────────────────────────────────────────────
+//Avatar helpers
 const AVATAR_COLORS = ["#6366f1","#0ea5e9","#10b981","#f59e0b","#ec4899","#8b5cf6","#ef4444","#14b8a6"];
 const avatarColor   = (name = "") => {
   const sum = name.split("").reduce((a, c) => a + c.charCodeAt(0), 0);
@@ -176,7 +176,7 @@ const avatarColor   = (name = "") => {
 };
 const RANK_COLORS = { 1: "#f59e0b", 2: "#94a3b8", 3: "#cd7f32" };
 
-// ── Top Students ──────────────────────────────────────────────────────────────
+//Top Students
 function TopStudents() {
   const [students, setStudents] = useState([]);
   const [loading,  setLoading]  = useState(true);
@@ -259,7 +259,7 @@ function TopStudents() {
   );
 }
 
-// ── Greeting ──────────────────────────────────────────────────────────────────
+//Greeting
 const greeting = () => {
   const hr = new Date().getHours();
   if (hr < 12) return "Good morning";
@@ -267,7 +267,7 @@ const greeting = () => {
   return "Good evening";
 };
 
-// ── Main Component ────────────────────────────────────────────────────────────
+//Main Component
 export default function AdminDashboard() {
   const router = useRouter();
 
