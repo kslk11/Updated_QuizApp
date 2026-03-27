@@ -17,8 +17,7 @@ const adminLinks = [
 ];
 
 const TeacherLinks=[
-  {to:"/batches", label:" ", icon:""},
-  {to:"", label:" ", icon:""}
+  {to:"/Teachersbatches", label:"Batches", icon:"🅱️"},
 ]
 const clientLinks = [
   { to: "/course", label: "Course Management", icon: "📚" },
@@ -36,6 +35,7 @@ const roleNames = {
   "1": "Admin",
   "2": "Client",
   "3": "Student",
+  "4":"Teacher",
 };
 
 export default function Sidebar() {
@@ -68,6 +68,7 @@ export default function Sidebar() {
     if (role === "1") return adminLinks;
     if (role === "2") return clientLinks;
     if (role === "3") return studentLinks;
+    if(role==="4")return TeacherLinks;
     return guestLinks;
   }, [token, role]);
 
