@@ -38,23 +38,22 @@ const getTeachers = async (page = 1, limit = 10, search = null,client_id) => {
   return result;
 };
 
-const updateTeacher = async (id, data) => {
 
- const teacher = await models.Teacher.findByPk(id);
-if (!teacher) return null;
-
-const user = await models.User.findByPk(teacher.user_id);
-  console.log(user)
-  return
-  if (!teacher) return null;
-
-  console.log(teacher);
-
-  await teacher.update(data);
-
-  return teacher;
+const updateTeacher = async (id, data, transaction) => {
+  return await models.Teacher.update(data, {
+    where: { id },
+    transaction
+  });
 };
 
+const getTeacherWithUser = async (id) => {
+  return await models.Teacher.findByPk(id, {
+    include: [{
+      model: models.User,
+      attributes: ["id", "name", "email"]
+    }]
+  });
+};
 const deleteTeacher = async (id) => {
 
   console.log("deleteTeacherId", id);
@@ -73,5 +72,6 @@ export default {
   getTeacherById,
   getTeachers,
   updateTeacher,
-  deleteTeacher
+  deleteTeacher,
+  getTeacherWithUser
 };

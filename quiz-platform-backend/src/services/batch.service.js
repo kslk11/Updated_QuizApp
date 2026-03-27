@@ -1,6 +1,7 @@
 import models from "../../models/index.js";
 import sequelize from "../config/sequelizeConfig.js";
 import batchRepo from "../repositories/batch.repository.js";
+import batchTeacherRepository from "../repositories/batchTeacher.repository.js";
 
 const createBatch = async (data) => {
   return await sequelize.transaction(async (t) => {
@@ -54,10 +55,14 @@ const deleteBatch = async (id) => {
     return true;
   });
 };
+const getBatchByTeacherId = async (userId) => {
+  return await batchTeacherRepository.getBatchByTeacherId(userId);
+};
 export default {
   createBatch,
   getBatches,
   getBatchById,
   updateBatch,
-  deleteBatch
+  deleteBatch,
+  getBatchByTeacherId
 };

@@ -88,18 +88,31 @@ const getTeacherById = async (id) => {
 
 // ✅ UPDATE
 const updateTeacher = async (id, data) => {
-
   return await sequelize.transaction(async (t) => {
 
-    const teacher = await teacherRepo.getTeacherById(id);
-
+    // 1. get teacher
+    const teacher = await teacherRepo.getTeacherById(id, t);
     if (!teacher) {
       throw new Error("Teacher not found");
     }
 
-    const updated = await teacherRepo.updateTeacher(data, { transaction: t });
+    // 2. get user using FK
+    const user = await userRepo.getUserById(teacher.user_id, t);
 
-    return updated;
+    // 3. split data
+    const { name, email, password, ...teacherData } = data;
+
+    const userData = { name, email, password };
+
+    // 4. update teacher
+    await teacherRepo.updateTeacher(id, teacherData, t);
+
+    // 5. update user
+    if (user) {
+      await userRepo.updateUser(user.id, userData, t);
+    }
+
+    return await teacherRepo.getTeacherWithUser(id); // updated response
   });
 };
 

@@ -19,5 +19,6 @@ router.put("/:id", authMiddleware, roleMiddleware(2), batchController.updateBatc
 
 // DELETE
 router.delete("/:id", authMiddleware, roleMiddleware(2), batchController.deleteBatch);
+router.get("/bat/new", authMiddleware, roleMiddleware(4),batchController.getBatchByTeacherId)
 
 export default router;

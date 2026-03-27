@@ -76,8 +76,10 @@ const getTeacherById = async (req, res) => {
 
 const updateTeacher = async (req, res) => {
   try {
-
-    const teacher = await teacherService.updateTeacher(req.params.id, req.body);
+    const teacher = await teacherService.updateTeacher(
+      req.params.id,
+      req.body
+    );
 
     return res.status(200).json({
       success: true,
@@ -86,7 +88,7 @@ const updateTeacher = async (req, res) => {
     });
 
   } catch (error) {
-    return res.status(404).json({
+    return res.status(400).json({
       success: false,
       message: error.message
     });

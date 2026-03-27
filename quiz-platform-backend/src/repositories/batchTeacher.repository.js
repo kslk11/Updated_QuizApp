@@ -77,6 +77,24 @@ const deleteMapping = async (id, { transaction }) => {
     transaction,
   });
 };
+const getBatchByTeacherId = async (userId) => {
+
+  const teacher = await models.Teacher.findOne({
+    where: { user_id: userId }
+  });
+  if (!teacher) {
+    throw new Error("Teacher not found");
+  }
+
+  return await models.BatchTeacher.findAll({
+    where: { teacher_id: teacher.id },
+    include: [
+      {
+        model: models.Batch
+      }
+    ]
+  });
+};
 export default {
   createMapping,
   bulkCreateMapping,
@@ -85,5 +103,6 @@ export default {
   deleteMapping,
   getMappings,
   updateMapping,
-  findById
+  findById,
+  getBatchByTeacherId
 };
