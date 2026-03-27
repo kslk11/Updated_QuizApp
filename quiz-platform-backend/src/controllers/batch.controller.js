@@ -1,7 +1,6 @@
 import models from "../../models/index.js";
 import clientRepo from "../repositories/clientRepo.js";
 import batchService from "../services/batch.service.js";
-import { Op } from "sequelize";
 
 // CREATE
 const createBatch = async (req, res) => {
@@ -118,11 +117,27 @@ const deleteBatch = async (req, res) => {
     });
   }
 };
+const getBatchByTeacherId = async (req, res) => {
+  try {
+    const batches = await batchService.getBatchByTeacherId(req.user.id);
 
+    return res.status(200).json({
+      success: true,
+      data: batches
+    });
+
+  } catch (error) {
+    return res.status(404).json({
+      success: false,
+      message: error.message
+    });
+  }
+};
 export default {
   createBatch,
   getBatches,
   getBatchById,
   updateBatch,
-  deleteBatch
+  deleteBatch,
+  getBatchByTeacherId
 };
