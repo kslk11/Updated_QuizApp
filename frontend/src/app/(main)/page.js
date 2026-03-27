@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { API_BASE_URL } from "../../config/api";
 import usePagination from "../../hooks/usePagination";
 import useDebounce from "../../hooks/useDebounce";
-import useTabSwitch from "../../hooks/useTabSwitch";
+// import useTabSwitch from "../../hooks/useTabSwitch";
 import { toast } from "react-toastify";
 
 
@@ -23,22 +23,22 @@ export default function Home() {
   const [search, setSearch] = useState("");
   const debouncedSearch     = useDebounce(search, 500);
 
-  const [count, setCount] = useState(0);
+  // const [count, setCount] = useState(0);
   
-  useTabSwitch(() => {
-    setCount((prev) => {
-      const newCount = prev + 1;
+  // useTabSwitch(() => {
+  //   setCount((prev) => {
+  //     const newCount = prev + 1;
 
-      toast.error(`Warning! Tab switched ${newCount} times`);
+  //     toast.error(`Warning! Tab switched ${newCount} times`);
 
-      if (newCount >= 3) {
-        alert("Quiz auto-submitted!");
-        //call your submit API here
-      }
+  //     if (newCount >= 3) {
+  //       alert("Quiz auto-submitted!");
+  //       //call your submit API here
+  //     }
 
-      return newCount;
-    });
-  });
+  //     return newCount;
+  //   });
+  // });
 
   const roleNum = typeof window !== "undefined"
     ? Number(localStorage.getItem("role") ?? 0)

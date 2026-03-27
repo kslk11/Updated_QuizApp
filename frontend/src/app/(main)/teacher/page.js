@@ -412,7 +412,7 @@ export default function TeachersPage() {
         {!loading && totalPages > 1 && (
           <div style={{ padding:"14px 22px", borderTop:"1px solid #f1f5f9", display:"flex", alignItems:"center", justifyContent:"space-between" }}>
             <span style={{ fontSize:"12.5px", color:"#64748b" }}>
-              Showing <b style={{ color:"#0f172a" }}>{(currentPage-1)*5+1}–{Math.min(currentPage*6,totalItems)}</b> of <b style={{ color:"#0f172a" }}>{totalItems}</b>
+              Showing <b style={{ color:"#0f172a" }}>{(currentPage-1)*5+1}–{Math.min(currentPage*5,totalItems)}</b> of <b style={{ color:"#0f172a" }}>{totalItems}</b>
             </span>
             <div style={{ display:"flex", gap:"5px", alignItems:"center" }}>
               <button type="button" className="pg-btn" disabled={!hasPrev} onClick={() => goToPage(currentPage-1)}
@@ -496,7 +496,7 @@ export default function TeachersPage() {
             </div>
             <div style={{ fontSize:"17px", fontWeight:700, color:"#0f172a", fontFamily:"'DM Serif Display',serif", marginBottom:"8px" }}>Remove Teacher?</div>
             <div style={{ fontSize:"13px", color:"#64748b", marginBottom:"24px", lineHeight:1.65 }}>
-              You&apos;re about to remove <strong style={{ color:"#0f172a" }}>{deleteConfirm.name}</strong> from the system. This cannot be undone.
+              You&apos;re about to remove <strong style={{ color:"#0f172a" }}>{deleteConfirm.User.name}</strong> from the system. This cannot be undone.
             </div>
             <div style={{ display:"flex", gap:"10px" }}>
               <button type="button" onClick={() => setDeleteConfirm(null)}
